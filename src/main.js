@@ -11,8 +11,6 @@ function render(container, template, type = `beforeend`) {
 const boardContainer = document.createElement(`section`);
 boardContainer.classList.add(`board`, `container`);
 
-
-
 render(mainContainer.querySelector(`.main .main__control`), menuTemplate());
 render(mainContainer, searchTemplate());
 render(mainContainer, filterTemplate());
@@ -31,7 +29,7 @@ for (let i = 0; i < CARDS_LENGTH; i++) {
 render(mainContainer.querySelector(`.board__tasks`), cardEditTemplate(), `afterBegin`);
 render(mainContainer.querySelector(`.board.container`), btnLoadMoreTemplate());
 
-function menuTemplate() {
+const menuTemplate = () => {
   return `
   <section class="control__btn-wrap">
   <input
@@ -64,7 +62,7 @@ function menuTemplate() {
   `
 }
 
-function searchTemplate() {
+const searchTemplate = () => {
   return `
   <section class="main__search search container">
     <input
@@ -79,8 +77,9 @@ function searchTemplate() {
   `
 }
 
-function filterTemplate() {
-  return `      <section class="main__filter filter container">
+const filterTemplate = () => {
+  return `
+  <section class="main__filter filter container">
   <input
     type="radio"
     id="filter__all"
@@ -150,13 +149,13 @@ function filterTemplate() {
 </section>`
 }
 
-function btnLoadMoreTemplate() {
+const btnLoadMoreTemplate = () => {
   return `
   <button class="load-more" type="button">load more</button>
-  `;
+  `
 }
 
-function boardFilterTemplate() {
+const boardFilterTemplate = () => {
   return `
   <div class="board__filter-list">
   <a href="#" class="board__filter">SORT BY DEFAULT</a>
@@ -165,8 +164,9 @@ function boardFilterTemplate() {
 </div>`
 }
 
-function cardTemplate() {
-  return `<article class="card card--black">
+const cardTemplate = () => {
+  return `
+  <article class="card card--black">
   <div class="card__form">
     <div class="card__inner">
       <div class="card__control">
@@ -232,7 +232,7 @@ function cardTemplate() {
   </div>
 </article>`
 }
-function cardEditTemplate() {
+const cardEditTemplate = () => {
   return `          <article class="card card--edit card--yellow card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
