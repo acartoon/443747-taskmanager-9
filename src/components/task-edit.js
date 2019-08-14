@@ -1,5 +1,5 @@
-export const cardEditTemplate = () => {
-  return `          <article class="card card--edit card--yellow card--repeat">
+export const cardEditTemplate = () =>
+  `<article class="card card--edit card--yellow card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -253,5 +253,4 @@ export const cardEditTemplate = () => {
       </div>
     </div>
   </form>
-</article>`
-}
+</article>`;

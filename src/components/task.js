@@ -1,6 +1,5 @@
-export const cardTemplate = () => {
-  return `
-  <article class="card card--black">
+export const cardTemplate = () =>
+  `<article class="card card--black">
   <div class="card__form">
     <div class="card__inner">
       <div class="card__control">
@@ -58,5 +57,4 @@ export const cardTemplate = () => {
       </div>
     </div>
   </div>
-</article>`
-}
+</article>`;
