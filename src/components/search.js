@@ -1,5 +1,5 @@
 export const searchTemplate = () => {
-  return `
+  `
   <section class="main__search search container">
     <input
       type="text"
@@ -10,5 +10,5 @@ export const searchTemplate = () => {
     />
     <label class="visually-hidden" for="search__input">Поиск</label>
   </section>
-  `
-}
+  `;
+};
