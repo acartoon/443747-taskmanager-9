@@ -1,251 +1,5 @@
-'use strict';
-import {menuTemplate} from './components/site-menu.js';
-import {searchTemplate} from './components/search.js';
-import {filterTemplate} from './components/filter.js';
-import {cardTemplate} from './components/task.js';
-import {cardEditTemplate} from './components/task-edit.js';
-import {btnLoadMoreTemplate} from './components/load-more-button.js';
-import {boardFilterTemplate} from './components/sorting.js';
-
-
-
-
-
-const CARDS_LENGTH = 3;
-const mainContainer = document.body.querySelector(`.main`);
-
-function render(container, template, type = `beforeend`) {
-  container.insertAdjacentHTML(type, template);
-}
-
-const boardContainer = document.createElement(`section`);
-boardContainer.classList.add(`board`, `container`);
-
-
-render(mainContainer.querySelector(`.main__control`), menuTemplate());
-render(mainContainer, searchTemplate());
-render(mainContainer, filterTemplate());
-render(mainContainer, boardContainer.outerHTML);
-render(mainContainer.querySelector(`.board.container`), boardFilterTemplate());
-
-const boardTasksContainer = document.createElement(`div`);
-boardTasksContainer.classList.add(`board__tasks`);
-
-render(mainContainer.querySelector(`.board.container`), boardTasksContainer.outerHTML);
-
-for (let i = 0; i < CARDS_LENGTH; i++) {
-  render(mainContainer.querySelector(`.board__tasks`), cardTemplate());
-}
-
-render(mainContainer.querySelector(`.board__tasks`), cardEditTemplate(), `afterBegin`);
-render(mainContainer.querySelector(`.board.container`), btnLoadMoreTemplate());
-
-
-const menuTemplate = () => {
-  return `
-  <section class="control__btn-wrap">
-  <input
-    type="radio"
-    name="control"
-    id="control__new-task"
-    class="control__input visually-hidden"
-  />
-  <label for="control__new-task" class="control__label control__label--new-task"
-    >+ ADD NEW TASK</label
-  >
-  <input
-    type="radio"
-    name="control"
-    id="control__task"
-    class="control__input visually-hidden"
-    checked
-  />
-  <label for="control__task" class="control__label">TASKS</label>
-  <input
-    type="radio"
-    name="control"
-    id="control__statistic"
-    class="control__input visually-hidden"
-  />
-  <label for="control__statistic" class="control__label"
-    >STATISTICS</label
-  >
-  </section>
-  `
-}
-
-const searchTemplate = () => {
-  return `
-  <section class="main__search search container">
-    <input
-      type="text"
-      id="search__input"
-      class="search__input"
-      placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE"
-      value="#work"
-    />
-    <label class="visually-hidden" for="search__input">Поиск</label>
-  </section>
-  `
-}
-
-const filterTemplate = () => {
-  return `
-  <section class="main__filter filter container">
-  <input
-    type="radio"
-    id="filter__all"
-    class="filter__input visually-hidden"
-    name="filter"
-    checked
-  />
-  <label for="filter__all" class="filter__label">
-    All <span class="filter__all-count">13</span></label
-  >
-  <input
-    type="radio"
-    id="filter__overdue"
-    class="filter__input visually-hidden"
-    name="filter"
-    disabled
-  />
-  <label for="filter__overdue" class="filter__label"
-    >Overdue <span class="filter__overdue-count">0</span></label
-  >
-  <input
-    type="radio"
-    id="filter__today"
-    class="filter__input visually-hidden"
-    name="filter"
-    disabled
-  />
-  <label for="filter__today" class="filter__label"
-    >Today <span class="filter__today-count">0</span></label
-  >
-  <input
-    type="radio"
-    id="filter__favorites"
-    class="filter__input visually-hidden"
-    name="filter"
-  />
-  <label for="filter__favorites" class="filter__label"
-    >Favorites <span class="filter__favorites-count">1</span></label
-  >
-  <input
-    type="radio"
-    id="filter__repeating"
-    class="filter__input visually-hidden"
-    name="filter"
-  />
-  <label for="filter__repeating" class="filter__label"
-    >Repeating <span class="filter__repeating-count">1</span></label
-  >
-  <input
-    type="radio"
-    id="filter__tags"
-    class="filter__input visually-hidden"
-    name="filter"
-  />
-  <label for="filter__tags" class="filter__label"
-    >Tags <span class="filter__tags-count">1</span></label
-  >
-  <input
-    type="radio"
-    id="filter__archive"
-    class="filter__input visually-hidden"
-    name="filter"
-  />
-  <label for="filter__archive" class="filter__label"
-    >Archive <span class="filter__archive-count">115</span></label
-  >
-</section>`
-}
-
-const btnLoadMoreTemplate = () => {
-  return `
-  <button class="load-more" type="button">load more</button>
-  `
-}
-
-const boardFilterTemplate = () => {
-  return `
-  <div class="board__filter-list">
-  <a href="#" class="board__filter">SORT BY DEFAULT</a>
-  <a href="#" class="board__filter">SORT BY DATE up</a>
-  <a href="#" class="board__filter">SORT BY DATE down</a>
-</div>`
-}
-
-const cardTemplate = () => {
-  return `
-  <article class="card card--black">
-  <div class="card__form">
-    <div class="card__inner">
-      <div class="card__control">
-        <button type="button" class="card__btn card__btn--edit">
-          edit
-        </button>
-        <button type="button" class="card__btn card__btn--archive">
-          archive
-        </button>
-        <button
-          type="button"
-          class="card__btn card__btn--favorites card__btn--disabled"
-        >
-          favorites
-        </button>
-      </div>
-
-      <div class="card__color-bar">
-        <svg class="card__color-bar-wave" width="100%" height="10">
-          <use xlink:href="#wave"></use>
-        </svg>
-      </div>
-
-      <div class="card__textarea-wrap">
-        <p class="card__text">Example default task with default color.</p>
-      </div>
-
-      <div class="card__settings">
-        <div class="card__details">
-          <div class="card__dates">
-            <div class="card__date-deadline">
-              <p class="card__input-deadline-wrap">
-                <span class="card__date">23 September</span>
-                <span class="card__time">11:15 PM</span>
-              </p>
-            </div>
-          </div>
-
-          <div class="card__hashtag">
-            <div class="card__hashtag-list">
-              <span class="card__hashtag-inner">
-                <span class="card__hashtag-name">
-                  #todo
-                </span>
-              </span>
-
-              <span class="card__hashtag-inner">
-                <span class="card__hashtag-name">
-                  #personal
-                </span>
-              </span>
-
-              <span class="card__hashtag-inner">
-                <span class="card__hashtag-name">
-                  #important
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>`
-}
-const cardEditTemplate = () => {
-  return `          <article class="card card--edit card--yellow card--repeat">
+export const cardEditTemplate = () =>
+  `<article class="card card--edit card--yellow card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -259,13 +13,11 @@ const cardEditTemplate = () => {
           favorites
         </button>
       </div>
-
       <div class="card__color-bar">
         <svg class="card__color-bar-wave" width="100%" height="10">
           <use xlink:href="#wave"></use>
         </svg>
       </div>
-
       <div class="card__textarea-wrap">
         <label>
           <textarea
@@ -275,14 +27,12 @@ const cardEditTemplate = () => {
           >Here is a card with filled data</textarea>
         </label>
       </div>
-
       <div class="card__settings">
         <div class="card__details">
           <div class="card__dates">
             <button class="card__date-deadline-toggle" type="button">
               date: <span class="card__date-status">yes</span>
             </button>
-
             <fieldset class="card__date-deadline">
               <label class="card__input-deadline-wrap">
                 <input
@@ -294,11 +44,9 @@ const cardEditTemplate = () => {
                 />
               </label>
             </fieldset>
-
             <button class="card__repeat-toggle" type="button">
               repeat:<span class="card__repeat-status">yes</span>
             </button>
-
             <fieldset class="card__repeat-days">
               <div class="card__repeat-days-inner">
                 <input
@@ -377,7 +125,6 @@ const cardEditTemplate = () => {
               </div>
             </fieldset>
           </div>
-
           <div class="card__hashtag">
             <div class="card__hashtag-list">
               <span class="card__hashtag-inner">
@@ -394,7 +141,6 @@ const cardEditTemplate = () => {
                   delete
                 </button>
               </span>
-
               <span class="card__hashtag-inner">
                 <input
                   type="hidden"
@@ -409,7 +155,6 @@ const cardEditTemplate = () => {
                   delete
                 </button>
               </span>
-
               <span class="card__hashtag-inner">
                 <input
                   type="hidden"
@@ -425,7 +170,6 @@ const cardEditTemplate = () => {
                 </button>
               </span>
             </div>
-
             <label>
               <input
                 type="text"
@@ -436,7 +180,6 @@ const cardEditTemplate = () => {
             </label>
           </div>
         </div>
-
         <div class="card__colors-inner">
           <h3 class="card__colors-title">Color</h3>
           <div class="card__colors-wrap">
@@ -504,12 +247,10 @@ const cardEditTemplate = () => {
           </div>
         </div>
       </div>
-
       <div class="card__status-btns">
         <button class="card__save" type="submit">save</button>
         <button class="card__delete" type="button">delete</button>
       </div>
     </div>
   </form>
-</article>`
-}
+</article>`;
