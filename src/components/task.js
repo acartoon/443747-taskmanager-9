@@ -1,5 +1,5 @@
 export const cardTemplate = ({description, dueDate, repeatingDays, tags, color, isArchive, isFavorite}) =>
-  `<article class="card card--${color} ${Object.keys(repeatingDays).some(day => repeatingDays[day]) ? `card--repeat` : ``}">
+  `<article class="card card--${color} ${Object.keys(repeatingDays).some((day) => repeatingDays[day]) ? `card--repeat` : ``}">
   <div class="card__form">
     <div class="card__inner">
       <div class="card__control">

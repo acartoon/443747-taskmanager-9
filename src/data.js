@@ -32,7 +32,7 @@ export const task = () => ({
     'sa': false,
     'su': false,
   },
-  tags: tags,
+  tags,
   color: colors[Math.floor(Math.random() * 5)],
   isFavorite: Boolean(Math.round(Math.random())),
   isArchive: Boolean(Math.round(Math.random())),
@@ -46,7 +46,7 @@ const countTodayTasks = (item) => item.dueDate === Date.now() ? true : false;
 const countFavoriteTasks = (item) => item.isFavorite;
 const countTagsTasks = (item) => item.tags ? true : false;
 const countArchiveTasks = (item) => item.isArchive ? true : false;
-const countRepeatingTasks = (item) => Object.keys(item.repeatingDays).some(day => item.repeatingDays[day] ? true : false);
+const countRepeatingTasks = (item) => Object.keys(item.repeatingDays).some((day) => item.repeatingDays[day] ? true : false);
 
 const counter = (func) => {
   return tasks.reduce((total, x) => (func(x) ? total + 1 : total), 0);
