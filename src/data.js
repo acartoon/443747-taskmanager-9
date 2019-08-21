@@ -1,3 +1,5 @@
+import {counter} from './utils';
+
 const description = [
   `Изучить теорию`,
   `Сделать домашку`,
@@ -48,37 +50,33 @@ const countTagsTasks = (item) => item.tags ? true : false;
 const countArchiveTasks = (item) => item.isArchive ? true : false;
 const countRepeatingTasks = (item) => Object.keys(item.repeatingDays).some((day) => item.repeatingDays[day] ? true : false);
 
-const counter = (func) => {
-  return tasks.reduce((total, x) => (func(x) ? total + 1 : total), 0);
-};
-
 export const filters = [
   {
     title: `All`,
-    count: counter(countAllTasks),
+    count: counter(countAllTasks, tasks),
   },
   {
     title: `Overdue`,
-    count: counter(countOverdueTasks),
+    count: counter(countOverdueTasks, tasks),
   },
   {
     title: `Today`,
-    count: counter(countTodayTasks),
+    count: counter(countTodayTasks, tasks),
   },
   {
     title: `Favorites`,
-    count: counter(countFavoriteTasks),
+    count: counter(countFavoriteTasks, tasks),
   },
   {
     title: `Repeating`,
-    count: counter(countRepeatingTasks),
+    count: counter(countRepeatingTasks, tasks),
   },
   {
     title: `Tags`,
-    count: counter(countTagsTasks),
+    count: counter(countTagsTasks, tasks),
   },
   {
     title: `Archive`,
-    count: counter(countArchiveTasks),
+    count: counter(countArchiveTasks, tasks),
   },
 ];
