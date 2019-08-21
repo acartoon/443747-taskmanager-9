@@ -1,51 +1,73 @@
 import {menuTemplate} from './components/site-menu.js';
 import {searchTemplate} from './components/search.js';
 import {filterTemplate} from './components/filter.js';
-import {cardTemplate} from './components/task.js';
-import {cardEditTemplate} from './components/task-edit.js';
+import {render, Position} from './utils';
+import {Task} from './components/task.js';
+import {TaskEdit} from './components/task-edit.js';
 import {btnLoadMoreTemplate} from './components/load-more-button.js';
 import {boardFilterTemplate} from './components/sorting.js';
 import {tasks, filters} from './data';
 
 const mainContainer = document.body.querySelector(`.main`);
 
-function render(container, template, type = `beforeend`) {
+function renderElement(container, template, type = `beforeend`) {
   container.insertAdjacentHTML(type, template);
 }
 
 const boardContainer = document.createElement(`section`);
 boardContainer.classList.add(`board`, `container`);
 
-render(mainContainer.querySelector(`.main__control`), menuTemplate());
-render(mainContainer, searchTemplate());
-render(mainContainer, filterTemplate(filters));
-render(mainContainer, boardContainer.outerHTML);
-render(mainContainer.querySelector(`.board.container`), boardFilterTemplate());
+renderElement(mainContainer.querySelector(`.main__control`), menuTemplate());
+renderElement(mainContainer, searchTemplate());
+renderElement(mainContainer, filterTemplate(filters));
+renderElement(mainContainer, boardContainer.outerHTML);
+renderElement(mainContainer.querySelector(`.board.container`), boardFilterTemplate());
 
 const boardTasksContainer = document.createElement(`div`);
 boardTasksContainer.classList.add(`board__tasks`);
 
-render(mainContainer.querySelector(`.board.container`), boardTasksContainer.outerHTML);
+renderElement(mainContainer.querySelector(`.board.container`), boardTasksContainer.outerHTML);
 
-render(mainContainer.querySelector(`.board.container`), btnLoadMoreTemplate());
+renderElement(mainContainer.querySelector(`.board.container`), btnLoadMoreTemplate());
 
-const renderTasks = (container, start, end) => {
-  container.insertAdjacentHTML(`beforeend`, tasks.slice(start, end)
-  .map(cardTemplate)
-  .join(``));
+const renderTask = (taskMock) => {
+  const task = new Task(taskMock);
+  const taskEdit = new TaskEdit(taskMock);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      tasksContainer.replaceChild(task.getElement(), taskEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  task.getElement()
+    .querySelector(`.card__btn--edit`)
+    .addEventListener(`click`, () => {
+      tasksContainer.replaceChild(taskEdit.getElement(), task.getElement());
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+  taskEdit.getElement().querySelector(`textarea`)
+    .addEventListener(`focus`, () => {
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  taskEdit.getElement().querySelector(`textarea`)
+    .addEventListener(`blur`, () => {
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+  taskEdit.getElement()
+    .querySelector(`.card__save`)
+    .addEventListener(`click`, () => {
+      tasksContainer.replaceChild(task.getElement(), taskEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  render(tasksContainer, task.getElement(), Position.BEFOREEND);
 };
 
-const renderTasksEdit = (container, start, end) => {
-  container.insertAdjacentHTML(`beforeend`, tasks.slice(start, end).map(cardEditTemplate).join(``));
-};
+const tasksContainer = document.querySelector(`.board__tasks`);
 
-renderTasksEdit(mainContainer.querySelector(`.board__tasks`), 0, 1);
-renderTasks(mainContainer.querySelector(`.board__tasks`), 1, 8);
-
-// добавление задач
-const loadMoreBtn = mainContainer.querySelector(`.load-more`);
-loadMoreBtn.addEventListener(`click`, (e) => {
-  e.preventDefault();
-  renderTasks(mainContainer.querySelector(`.board__tasks`), 8);
-  loadMoreBtn.style.display = `none`;
-});
+tasks.forEach((task) => renderTask(task));
