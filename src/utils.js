@@ -30,6 +30,11 @@ export const unrender = (element) => {
   }
 };
 
+export const Key = {
+  ESCAPE_IE: `Escape`,
+  ESCAPE: `Esc`,
+};
+
 export const countAllTasks = (item) => !item.isArchive ? true : false;
 export const countOverdueTasks = (item) => (item.dueDate  < Date.now()) && !item.isArchive ? true : false;
 export const countTodayTasks = (item) => (item.dueDate && !item.isArchive) === Date.now() ? true : false;

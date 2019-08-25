@@ -49,6 +49,7 @@ export const task = () => ({
 });
 
 export const tasks = new Array(10).fill(``).map(task);  
+// export const tasks = [];  
 
 export const filters = [
   {
