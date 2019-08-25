@@ -48,8 +48,7 @@ export const task = () => ({
   isArchive: Boolean(Math.round(Math.random())),
 });
 
-export const tasks = new Array(10).fill(``).map(task);  
-// export const tasks = [];  
+export const tasks = new Array(10).fill(``).map(task);
 
 export const filters = [
   {

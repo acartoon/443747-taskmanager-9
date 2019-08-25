@@ -16,9 +16,9 @@ renderElement(mainContainer.querySelector(`.main__control`), menuTemplate());
 renderElement(mainContainer, searchTemplate());
 renderElement(mainContainer, filterTemplate(filters));
 
-if((tasks.length == 0) || (tasks.length == counter(countArchiveTasks, tasks))){
+if ((tasks.length === 0) || (tasks.length === counter(countArchiveTasks, tasks))) {
   renderElement(mainContainer, noTasks());
 } else {
   const boardController = new BoardController(mainContainer, tasks);
-  boardController.init();  
+  boardController.init();
 }

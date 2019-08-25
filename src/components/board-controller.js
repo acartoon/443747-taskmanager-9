@@ -1,10 +1,26 @@
-import {Task} from './task';
-import {Board} from './board';
-import {Sort} from './sort';
-import {TaskList} from './task-list';
-import {TaskEdit} from './task-edit';
-import {BtnLoadMore} from './btnLoadMore';
-import {render, Position, Key} from '../utils';
+import {
+  Task
+} from './task';
+import {
+  Board
+} from './board';
+import {
+  Sort
+} from './sort';
+import {
+  TaskList
+} from './task-list';
+import {
+  TaskEdit
+} from './task-edit';
+import {
+  BtnLoadMore
+} from './btnLoadMore';
+import {
+  render,
+  Position,
+  Key
+} from '../utils';
 
 export class BoardController {
   constructor(container, tasks) {
@@ -15,21 +31,20 @@ export class BoardController {
     this._btnLoadMore = new BtnLoadMore();
     this._sort = new Sort();
     this._MAX_TASKS_TO_RENDER = 8;
-    this._tasksRenderedCount = '';
-    this._tasksToRenderedCount = '';
+    this._tasksRenderedCount = ``;
+    this._tasksToRenderedCount = ``;
     this._tasksToRender = [];
- }
- 
-   _countToRender() {
-      this._tasksRenderedCount = this._tasks.length < this._MAX_TASKS_TO_RENDER ? this._tasks.length : this._MAX_TASKS_TO_RENDER;
-      console.log(this._tasksRenderedCount);
-      this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
-      this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
-      if(this._tasksToRenderedCount <= 0) {
-        btnShowMore.classList.add(`visually-hidden`);
-      }
-   }
-  
+  }
+
+  _countToRender() {
+    this._tasksRenderedCount = this._tasks.length < this._MAX_TASKS_TO_RENDER ? this._tasks.length : this._MAX_TASKS_TO_RENDER;
+    this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
+    this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
+    if (this._tasksToRenderedCount <= 0) {
+      document.querySelector(`.load-more`).classList.add(`visually-hidden`);
+    }
+  }
+
   init() {
     this._countToRender();
     render(this._container, this._board.getElement(), Position.BEFOREEND);
@@ -38,12 +53,12 @@ export class BoardController {
     render(this._board.getElement(), this._btnLoadMore.getElement(), Position.BEFOREEND);
 
     this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
-    
+
     this._btnLoadMore.getElement()
-    .addEventListener(`click`, (evt) => this._onBtnClick(evt));
-    
+      .addEventListener(`click`, (evt) => this._onBtnClick(evt));
+
     this._sort.getElement()
-    .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+      .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
   }
 
   _renderTask(task) {
@@ -83,21 +98,22 @@ export class BoardController {
 
     render(this._taskList.getElement(), taskComponent.getElement(), Position.BEFOREEND);
   }
-  
-    _onBtnClick(evt) {
-      evt.preventDefault();
-      this._tasksRenderedCount += this._MAX_TASKS_TO_RENDER;
-      this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
 
-      this._taskList.getElement().innerHTML = ``;
-      this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
+  _onBtnClick(evt) {
+    evt.preventDefault();
+    this._tasksRenderedCount += this._MAX_TASKS_TO_RENDER;
+    this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
 
-      this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
+    this._taskList.getElement().innerHTML = ``;
 
-      if(this._tasksToRenderedCount <= 0) {
-        document.querySelector(`.load-more`).classList.add(`visually-hidden`);
-      }
+    this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
+
+    this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
+
+    if (this._tasksToRenderedCount <= 0) {
+      document.querySelector(`.load-more`).classList.add(`visually-hidden`);
     }
+  }
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
@@ -105,7 +121,7 @@ export class BoardController {
     if (evt.target.tagName !== `A`) {
       return;
     }
-    
+
     this._taskList.getElement().innerHTML = ``;
 
     switch (evt.target.dataset.sortType) {
