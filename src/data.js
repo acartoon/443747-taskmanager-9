@@ -1,4 +1,12 @@
-import {counter} from './utils';
+import {counter,
+  countAllTasks,
+  countOverdueTasks,
+  countTodayTasks,
+  countFavoriteTasks,
+  countTagsTasks,
+  countArchiveTasks,
+  countRepeatingTasks
+} from './utils';
 
 const description = [
   `Изучить теорию`,
@@ -40,43 +48,42 @@ export const task = () => ({
   isArchive: Boolean(Math.round(Math.random())),
 });
 
-export const tasks = new Array(10).fill(``).map(task);
-
-const countAllTasks = (item) => !item.isArchive ? true : false;
-const countOverdueTasks = (item) => item.dueDate < Date.now() ? true : false;
-const countTodayTasks = (item) => item.dueDate === Date.now() ? true : false;
-const countFavoriteTasks = (item) => item.isFavorite;
-const countTagsTasks = (item) => item.tags ? true : false;
-const countArchiveTasks = (item) => item.isArchive ? true : false;
-const countRepeatingTasks = (item) => Object.keys(item.repeatingDays).some((day) => item.repeatingDays[day] ? true : false);
+export const tasks = new Array(10).fill(``).map(task);  
 
 export const filters = [
   {
     title: `All`,
     count: counter(countAllTasks, tasks),
+    name: `all`,
   },
   {
     title: `Overdue`,
     count: counter(countOverdueTasks, tasks),
+    name: `overdue`,
   },
   {
     title: `Today`,
     count: counter(countTodayTasks, tasks),
+    name: `today`,
   },
   {
     title: `Favorites`,
     count: counter(countFavoriteTasks, tasks),
+    name: `favorites`,
   },
   {
     title: `Repeating`,
     count: counter(countRepeatingTasks, tasks),
+    name: `repeating`,
   },
   {
     title: `Tags`,
     count: counter(countTagsTasks, tasks),
+    name: `tags`,
   },
   {
     title: `Archive`,
     count: counter(countArchiveTasks, tasks),
+    name: `archive`,
   },
 ];

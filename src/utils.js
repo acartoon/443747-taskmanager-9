@@ -29,3 +29,11 @@ export const unrender = (element) => {
     element.remove();
   }
 };
+
+export const countAllTasks = (item) => !item.isArchive ? true : false;
+export const countOverdueTasks = (item) => (item.dueDate  < Date.now()) && !item.isArchive ? true : false;
+export const countTodayTasks = (item) => (item.dueDate && !item.isArchive) === Date.now() ? true : false;
+export const countFavoriteTasks = (item) => item.isFavorite && !item.isArchive;
+export const countTagsTasks = (item) => (item.tags && !item.isArchive) ? true : false;
+export const countArchiveTasks = (item) => item.isArchive ? true : false;
+export const countRepeatingTasks = (item) => Object.keys(item.repeatingDays).some((day) => item.repeatingDays[day] && !item.isArchive ? true : false);
