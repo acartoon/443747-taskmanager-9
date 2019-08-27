@@ -1,15 +1,8 @@
-import {AbstractComponent} from './abstract-component.js';
+import {TaskBaseComponent} from './task-base-component.js';
 
-export class TaskEdit extends AbstractComponent {
+export class TaskEdit extends TaskBaseComponent {
   constructor({description, dueDate, repeatingDays, tags, color, isArchive, isFavorite}) {
-    super();
-    this._description = description;
-    this._dueDate = new Date(dueDate);
-    this._tags = tags;
-    this._color = color;
-    this._repeatingDays = repeatingDays;
-    this._isArchive = isArchive;
-    this._isFavorite = isFavorite;
+    super(description, dueDate, repeatingDays, tags, color, isArchive, isFavorite);
   }
 
   getTemplate() {

@@ -1,26 +1,11 @@
-import {
-  Task
-} from './task';
-import {
-  Board
-} from './board';
-import {
-  Sort
-} from './sort';
-import {
-  TaskList
-} from './task-list';
-import {
-  TaskEdit
-} from './task-edit';
-import {
-  BtnLoadMore
-} from './btnLoadMore';
-import {
-  render,
-  Position,
-  Key
-} from '../utils';
+import {Task} from './task';
+import {Board} from './board';
+import {NoTasks} from './no-tasks';
+import {Sort} from './sort';
+import {TaskList} from './task-list';
+import {TaskEdit} from './task-edit';
+import {BtnLoadMore} from './btnLoadMore';
+import {render, Position, Key} from '../utils';
 
 export class BoardController {
   constructor(container, tasks) {
@@ -30,6 +15,7 @@ export class BoardController {
     this._taskList = new TaskList();
     this._btnLoadMore = new BtnLoadMore();
     this._sort = new Sort();
+    this._noTasks = new NoTasks();
     this._MAX_TASKS_TO_RENDER = 8;
     this._tasksRenderedCount = ``;
     this._tasksToRenderedCount = ``;
@@ -40,25 +26,30 @@ export class BoardController {
     this._tasksRenderedCount = this._tasks.length < this._MAX_TASKS_TO_RENDER ? this._tasks.length : this._MAX_TASKS_TO_RENDER;
     this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
     this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
-    if (this._tasksToRenderedCount <= 0) {
+    if (this._tasksToRenderedCount === 0) {
       document.querySelector(`.load-more`).classList.add(`visually-hidden`);
     }
   }
 
   init() {
     this._countToRender();
-    render(this._container, this._board.getElement(), Position.BEFOREEND);
-    render(this._board.getElement(), this._sort.getElement(), Position.BEFOREEND);
-    render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
-    render(this._board.getElement(), this._btnLoadMore.getElement(), Position.BEFOREEND);
 
-    this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
-
-    this._btnLoadMore.getElement()
-      .addEventListener(`click`, (evt) => this._onBtnClick(evt));
-
-    this._sort.getElement()
-      .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+    if(this._tasks.length === 0) {
+      render(this._container, this._noTasks.getElement(), Position.BEFOREEND);
+    } else {
+      render(this._container, this._board.getElement(), Position.BEFOREEND);
+      render(this._board.getElement(), this._sort.getElement(), Position.BEFOREEND);
+      render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
+      render(this._board.getElement(), this._btnLoadMore.getElement(), Position.BEFOREEND);
+  
+      this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
+  
+      this._btnLoadMore.getElement()
+        .addEventListener(`click`, (evt) => this._onBtnClick(evt));
+  
+      this._sort.getElement()
+        .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+    }
   }
 
   _renderTask(task) {
