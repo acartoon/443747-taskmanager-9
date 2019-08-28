@@ -1,8 +1,8 @@
 import {TaskBaseComponent} from './task-base-component.js';
 
 export class Task extends TaskBaseComponent {
-  constructor({description, dueDate, repeatingDays, tags, color, isArchive, isFavorite}) {
-    super(description, dueDate, repeatingDays, tags, color, isArchive, isFavorite);
+  constructor(params) {
+    super(params);
   }
 
   getTemplate() {
