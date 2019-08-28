@@ -16,42 +16,34 @@ export class BoardController {
     this._btnLoadMore = new BtnLoadMore();
     this._sort = new Sort();
     this._noTasks = new NoTasks();
-    this._MAX_TASKS_TO_RENDER = 8;
-    this._tasksRenderedCount = ``;
-    this._tasksToRenderedCount = ``;
+    this._STEP_TO_RENDER = 8;
     this._tasksToRender = [];
   }
 
-  _countToRender() {
-    this._tasksRenderedCount = this._tasks.length < this._MAX_TASKS_TO_RENDER ? this._tasks.length : this._MAX_TASKS_TO_RENDER;
-    this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
-    this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
-  }
-
   init() {
-    this._countToRender();
+    this._tasksToRender = this._tasks.slice(0, this._STEP_TO_RENDER);
+
     render(this._container, this._board.getElement(), Position.BEFOREEND);
     render(this._board.getElement(), this._sort.getElement(), Position.BEFOREEND);
     render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
-    if(!this._tasksToRenderedCount <= 0) {
+
+    if (this._STEP_TO_RENDER < this._tasks.length) {
       render(this._board.getElement(), this._btnLoadMore.getElement(), Position.BEFOREEND);
     }
 
-    this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
-
-    if(this._tasks.length === 0) {
+    if (this._tasks.length === 0) {
       render(this._container, this._noTasks.getElement(), Position.BEFOREEND);
     } else {
       render(this._container, this._board.getElement(), Position.BEFOREEND);
       render(this._board.getElement(), this._sort.getElement(), Position.BEFOREEND);
       render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
       render(this._board.getElement(), this._btnLoadMore.getElement(), Position.BEFOREEND);
-  
+
       this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
-  
+
       this._btnLoadMore.getElement()
         .addEventListener(`click`, (evt) => this._onBtnClick(evt));
-  
+
       this._sort.getElement()
         .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     }
@@ -97,16 +89,12 @@ export class BoardController {
 
   _onBtnClick(evt) {
     evt.preventDefault();
-    this._tasksRenderedCount += this._MAX_TASKS_TO_RENDER;
-    this._tasksToRender = this._tasks.slice(0, this._tasksRenderedCount);
-
+    const counter = this._tasksToRender.length + this._STEP_TO_RENDER;
+    this._tasksToRender = this._tasks.slice(0, counter);
     this._taskList.getElement().innerHTML = ``;
+    this._tasksToRender.forEach((item) => this._renderTask(item));
 
-    this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
-
-    this._tasksToRenderedCount = this._tasks.length - this._tasksRenderedCount;
-
-    if (this._tasksToRenderedCount <= 0) {
+    if (counter >= this._tasks.length) {
       document.querySelector(`.load-more`).classList.add(`visually-hidden`);
     }
   }
@@ -117,20 +105,19 @@ export class BoardController {
     if (evt.target.tagName !== `A`) {
       return;
     }
-
     this._taskList.getElement().innerHTML = ``;
 
     switch (evt.target.dataset.sortType) {
       case `date-up`:
         const sortedByDateUpTasks = this._tasksToRender.slice().sort((a, b) => a.dueDate - b.dueDate);
-        sortedByDateUpTasks.forEach((taskMock) => this._renderTask(taskMock));
+        sortedByDateUpTasks.forEach((item) => this._renderTask(item));
         break;
       case `date-down`:
         const sortedByDateDownTasks = this._tasksToRender.slice().sort((a, b) => b.dueDate - a.dueDate);
-        sortedByDateDownTasks.forEach((taskMock) => this._renderTask(taskMock));
+        sortedByDateDownTasks.forEach((item) => this._renderTask(item));
         break;
       case `default`:
-        this._tasksToRender.forEach((taskMock) => this._renderTask(taskMock));
+        this._tasksToRender.forEach((item) => this._renderTask(item));
         break;
     }
   }
