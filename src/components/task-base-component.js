@@ -1,7 +1,7 @@
 import {AbstractComponent} from './abstract-component.js';
 
 export class TaskBaseComponent extends AbstractComponent {
-  constructor(description, dueDate, repeatingDays, tags, color, isArchive, isFavorite) {
+  constructor({description, dueDate, repeatingDays, tags, color, isArchive, isFavorite}) {
     super();
     this._description = description;
     this._dueDate = new Date(dueDate);
