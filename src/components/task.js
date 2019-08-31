@@ -1,6 +1,6 @@
 import {TaskBaseComponent} from './task-base-component.js';
 
-export class Task extends TaskBaseComponent {
+export default class Task extends TaskBaseComponent {
   constructor(params) {
     super(params);
   }
@@ -10,11 +10,9 @@ export class Task extends TaskBaseComponent {
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
-          <button type="button" class="card__btn card__btn--edit">
-            edit
-          </button>
-          ${this._isArchive ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
-          ${this._isFavorite ? `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>` : ``}
+          <button type="button" class="card__btn card__btn--edit ">edit</button>
+          <button type="button" class="card__btn card__btn--archive ${this._isArchive ? `` : `card__btn--disabled`}">archive</button>
+          <button type="button" class="card__btn card__btn--favorites ${this._isFavorite ? `` : `card__btn--disabled`}">favorites</button>
         </div>
         <div class="card__color-bar">
           <svg class="card__color-bar-wave" width="100%" height="10">

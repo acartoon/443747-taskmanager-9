@@ -1,6 +1,6 @@
 import {TaskBaseComponent} from './task-base-component.js';
 
-export class TaskEdit extends TaskBaseComponent {
+export default class TaskEdit extends TaskBaseComponent {
   constructor(params) {
     super(params);
   }
@@ -10,9 +10,10 @@ export class TaskEdit extends TaskBaseComponent {
     <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
-      ${this._isArchive ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
-      ${this._isFavorite ? `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>` : ``}
-      </div>
+        <button type="button" class="card__btn card__btn--edit ">edit</button>
+        <button type="button" class="card__btn card__btn--archive ${this._isArchive ? `` : `card__btn--disabled`}">archive</button>
+        <button type="button" class="card__btn card__btn--favorites ${this._isFavorite ? `` : `card__btn--disabled`}">favorites</button>
+    </div>
       <div class="card__color-bar">
         <svg class="card__color-bar-wave" width="100%" height="10">
           <use xlink:href="#wave"></use>
@@ -70,7 +71,7 @@ export class TaskEdit extends TaskBaseComponent {
                 <input
                   type="hidden"
                   name="hashtag"
-                  value="repeat"
+                  value="${tag}"
                   class="card__hashtag-hidden-input"
                 />
                 <p class="card__hashtag-name">
@@ -102,6 +103,7 @@ export class TaskEdit extends TaskBaseComponent {
               class="card__color-input card__color-input--black visually-hidden"
               name="color"
               value="black"
+              ${this._color === `black` && `checked`}
             />
             <label
               for="color-black-4"
@@ -114,7 +116,7 @@ export class TaskEdit extends TaskBaseComponent {
               class="card__color-input card__color-input--yellow visually-hidden"
               name="color"
               value="yellow"
-              checked
+              ${this._color === `yellow` && `checked`}
             />
             <label
               for="color-yellow-4"
@@ -127,6 +129,7 @@ export class TaskEdit extends TaskBaseComponent {
               class="card__color-input card__color-input--blue visually-hidden"
               name="color"
               value="blue"
+              ${this._color === `blue` && `checked`}
             />
             <label
               for="color-blue-4"
@@ -139,6 +142,7 @@ export class TaskEdit extends TaskBaseComponent {
               class="card__color-input card__color-input--green visually-hidden"
               name="color"
               value="green"
+              ${this._color === `green` && `checked`}
             />
             <label
               for="color-green-4"
@@ -151,6 +155,7 @@ export class TaskEdit extends TaskBaseComponent {
               class="card__color-input card__color-input--pink visually-hidden"
               name="color"
               value="pink"
+              ${this._color === `pink` && `checked`}
             />
             <label
               for="color-pink-4"

@@ -2,7 +2,7 @@ import {menuTemplate} from './components/site-menu.js';
 import {searchTemplate} from './components/search.js';
 import {filterTemplate} from './components/filter.js';
 import {tasks, filters} from './data';
-import {BoardController} from './components/board-controller';
+import BoardController from './components/controllers/board';
 
 const mainContainer = document.body.querySelector(`.main`);
 

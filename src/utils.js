@@ -35,6 +35,10 @@ export const Key = {
   ESCAPE: `Esc`,
 };
 
+export function renderElem(container, template, type = `beforeend`) {
+  container.insertAdjacentHTML(type, template);
+}
+
 export const countAllTasks = (item) => !item.isArchive ? true : false;
 export const countOverdueTasks = (item) => (item.dueDate < Date.now()) && !item.isArchive ? true : false;
 export const countTodayTasks = (item) => (item.dueDate && !item.isArchive) === Date.now() ? true : false;

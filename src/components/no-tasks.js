@@ -4,8 +4,7 @@ export class NoTasks extends AbstractComponent {
   getTemplate() {
     return `<section class="board container">
     <p class="board__no-tasks">
-      Congratulations, all tasks were completed! To create a new click on
-      «add new task» button.
+      Click ADD NEW TASK in menu to create your first task
     </p>
   </section>`;
   }
